@@ -1,8 +1,7 @@
-const express = require('express');
-const Router = require('../common/router');
+const ExpressRouter = require('../models/express-router');
 const baseHandler = require('../handlers/base-handler');
 
-const webRouter = new Router(new express.Router());
+const webRouter = new ExpressRouter();
 
 webRouter.get('/', baseHandler.getBaseView);
 

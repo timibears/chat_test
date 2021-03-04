@@ -1,10 +1,11 @@
+const {Router} = require('express');
 const {
   Http500,
-} = require('../models/errors');
+} = require('./errors');
 
-class Router {
-  constructor(router) {
-    this.router = router;
+class ExpressRouter {
+  constructor() {
+    this.router = new Router();
     this.setRouter = this.setRouter.bind(this);
     this.get = this.get.bind(this);
     this.post = this.post.bind(this);
@@ -27,7 +28,7 @@ class Router {
   }
 
   /**
-   * @this Router
+   * @this ExpressRouter
    * @param {string} method
    * @param {string} path
    * @param {Array<function(req, res, next)>} handlers
@@ -36,7 +37,7 @@ class Router {
   setRouter(method, path, ...handlers) {
     this.router[method](
       path,
-      ...handlers.map(handler => Router.handlerWrap(handler)),
+      ...handlers.map(handler => ExpressRouter.handlerWrap(handler)),
     );
   }
 
@@ -57,4 +58,4 @@ class Router {
   }
 }
 
-module.exports = Router;
+module.exports = ExpressRouter;
