@@ -1,5 +1,6 @@
 const {Router} = require('capybara-router');
 const history = require('history');
+const api = require('../core/apis/web-api');
 const TITLE = 'Chat';
 
 module.exports = new Router({
@@ -12,6 +13,9 @@ module.exports = new Router({
       uri: '',
       onEnter: () => {
         document.title = TITLE;
+      },
+      resolve: {
+        socket: () => api.connect(),
       },
       component: require('./pages/shared/layout'),
     },

@@ -26,11 +26,11 @@ module.exports = class SocketResponse {
     }
 
     this.status = status;
-    this.socket.emit('RESPONSE', JSON.stringify({
+    this.socket.emit('RESPONSE', {
       id: this.request.id,
       status: status,
       body: data,
-    }));
+    });
     this.end();
   }
 

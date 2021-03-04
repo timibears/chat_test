@@ -51,9 +51,11 @@ module.exports = class SocketRouter {
   }
 
   errorHandler(error, req, res) {
-    console.error(error);
-    res.status = error.status || 500;
-    res.end();
+    const result = {
+      message: `${error}`,
+    };
+
+    res.json(result, error.status || 500);
   }
 
   /**

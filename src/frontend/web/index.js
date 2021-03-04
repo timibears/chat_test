@@ -1,6 +1,7 @@
 // Stylesheets
 require('./stylesheets/index.scss');
 
+require('regenerator-runtime/runtime');
 const {RouterView} = require('capybara-router');
 const {PUSH, REPLACE, RELOAD} = require('capybara-router/lib/constants/history-actions');
 const nprogress = require('nprogress');
