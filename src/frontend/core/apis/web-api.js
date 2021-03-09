@@ -2,13 +2,18 @@ const {connectSocket, sendSocketRequest} = require('./');
 
 module.exports = {
   connect: connectSocket,
-  profile: {
-    updateProfileSettings: ({name}) => {
-      return sendSocketRequest({
-        method: 'put',
-        url: '/profile-settings',
-        body: {name},
-      });
-    },
+  message: {
+    getMessages: () => sendSocketRequest({
+      method: 'get',
+      url: '/messages',
+    }),
+    createMessage: ({author, content}) => sendSocketRequest({
+      method: 'post',
+      url: '/messages',
+      body: {
+        author,
+        content,
+      },
+    }),
   },
 };

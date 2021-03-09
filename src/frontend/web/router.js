@@ -25,6 +25,9 @@ module.exports = new Router({
       onEnter: () => {
         document.title = `Home - ${TITLE}`;
       },
+      resolve: {
+        messages: () => api.message.getMessages().then(response => response.body),
+      },
       loadComponent: () => import(
         /* webpackChunkName: "web-home" */
         './pages/home'

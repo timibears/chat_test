@@ -1,4 +1,5 @@
 const classNames = require('classnames');
+const PropTypes = require('prop-types');
 const progress = require('nprogress');
 const {Formik, Form, Field} = require('formik');
 const React = require('react');
@@ -7,25 +8,56 @@ const utils = require('../../core/utils');
 const Base = require('../../core/pages/base');
 const api = require('../../core/apis/web-api');
 const profileSettingsValidator = require('../validatiors/profile-settings-validator');
+const messageValidator = require('../validatiors/message-validator');
+const MessageRow = require('../components/message-row');
 
 module.exports = class Home extends Base {
-  constructor(props) {
-    super(props);
-    this.profileSettingsFormNameInputRef = React.createRef();
-    this.state.modal = {
-      show: true,
+  static get propTypes() {
+    return {
+      messages: PropTypes.shape({
+        items: PropTypes.arrayOf(PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          author: PropTypes.string.isRequired,
+          content: PropTypes.string.isRequired,
+          createdAt: PropTypes.string.isRequired,
+        }).isRequired).isRequired,
+      }).isRequired,
     };
   }
 
+  constructor(props) {
+    super(props);
+    this.profileSettingsFormNameInputRef = React.createRef();
+    this.messageContentInputRef = React.createRef();
+    this.state.messages = props.messages;
+    this.state.modal = {
+      show: true,
+    };
+    this.state.user = null;
+  }
+
   onSubmitProfileSettingsModalForm = async values => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        name: values.name,
+      },
+      modal: {
+        ...this.state.modal,
+        show: false,
+      },
+    });
+    setTimeout(() => {
+      this.messageContentInputRef.current.focus();
+    }, 800);
+  }
+
+  onSubmitMessageForm = async values => {
     try {
       progress.start();
-      await api.profile.updateProfileSettings(values);
-      this.setState({
-        modal: {
-          ...this.state.modal,
-          show: false,
-        },
+      await api.message.createMessage({
+        ...values,
+        author: this.state.user.name,
       });
     } catch (error) {
       utils.renderError(error);
@@ -56,22 +88,57 @@ module.exports = class Home extends Base {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button
-            disabled={this.state.$isApiProcessing}
-            className="btn btn-outline-primary" type="submit"
-          >
-            OK
-          </button>
+          <button className="btn btn-outline-primary" type="submit">OK</button>
         </Modal.Footer>
       </Form>
     );
   }
 
-  render() {
+  renderMessageInputForm = ({errors, submitCount}) => {
+    const isSubmitted = submitCount > 0;
+
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-12">
+      <Form>
+        <div className="form-group">
+          <Field
+            innerRef={this.messageContentInputRef} name="content" component="textarea"
+            placeholder="Please type your message."
+            className={classNames('form-control', {'is-invalid': errors.content && isSubmitted})}/>
+        </div>
+        <button
+          disabled={this.state.$isApiProcessing}
+          className="btn btn-outline-primary float-right" type="submit"
+        >
+          Send
+        </button>
+      </Form>
+    );
+  }
+
+  render() {
+    const userName = this.state.user && this.state.user.name;
+    const messages = this.props.messages.items;
+
+    return (
+      <div className="container">
+        <div className="row justify-content-md-center pt-3">
+          <div className="col-10">
+            {
+              messages.map(message => (
+                <MessageRow key={message.id} amIAuthor={message.author === userName} message={message}/>
+              ))
+            }
+
+            <div className="pt-2">
+              <Formik
+                initialValues={{content: ''}}
+                validate={utils.makeFormikValidator(messageValidator)}
+                onSubmit={this.onSubmitMessageForm}
+              >
+                {this.renderMessageInputForm}
+              </Formik>
+            </div>
+
             <Modal
               autoFocus={false}
               size="lg"

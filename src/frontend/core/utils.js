@@ -56,3 +56,25 @@ exports.makeFormikValidator = validator => values => {
   });
   return result;
 };
+
+/**
+ * Generate a date prop types for React.Component.
+ * @param {boolean} isRequired - Is this field required?
+ * @returns {function(props: Object, propName: string, componentName: string, location: string, propFullName: string)} - The prop types handler.
+ */
+exports.generateDatePropTypes = isRequired => {
+  return (props, propName, componentName, location, propFullName) => {
+    const value = props[propName];
+    if (isRequired && (value == null || value === '')) {
+      return new Error(
+        `Invalid prop "${propFullName}" supplied to ${componentName}. Validation failed.`,
+      );
+    }
+
+    if (value && Number.isNaN((new Date(value)).getTime())) {
+      return new Error(
+        `Invalid prop "${propFullName}" supplied to ${componentName}. Validation failed.`,
+      );
+    }
+  };
+};
