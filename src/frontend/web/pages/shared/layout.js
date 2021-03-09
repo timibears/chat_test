@@ -7,7 +7,7 @@ module.exports = class Layout extends React.Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
           <Link className="navbar-brand" to="/">Chat</Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content">
             <span className="navbar-toggler-icon"/>
