@@ -4,6 +4,8 @@ require('./stylesheets/index.scss');
 require('regenerator-runtime/runtime');
 const {RouterView} = require('capybara-router');
 const {PUSH, REPLACE, RELOAD} = require('capybara-router/lib/constants/history-actions');
+const dayjs = require('dayjs');
+const LocalizedFormat = require('dayjs/plugin/localizedFormat');
 const nprogress = require('nprogress');
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -12,6 +14,7 @@ const Loading = require('../core/components/loading');
 const utils = require('../core/utils');
 
 nprogress.configure({showSpinner: false});
+dayjs.extend(LocalizedFormat);
 router.listen('ChangeStart', (action, toState, fromState, next) => {
   nprogress.start();
   if (window.error) {
