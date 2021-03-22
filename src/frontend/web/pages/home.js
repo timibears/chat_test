@@ -29,7 +29,10 @@ module.exports = class Home extends Base {
     super(props);
     this.profileSettingsFormNameInputRef = React.createRef();
     this.messageContentInputRef = React.createRef();
-    this.state.messages = props.messages;
+    this.state.messages = {
+      ...props.messages,
+      items: props.messages.items.reverse(),
+    };
     this.state.modal = {
       show: true,
     };
