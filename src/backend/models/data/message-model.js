@@ -9,6 +9,9 @@ const definition = {
     type: String,
     required: true,
   },
+  socketId: {
+    type: String,
+  },
 };
 const schema = new mongoose.Schema(definition, {
   collection: 'Messages',

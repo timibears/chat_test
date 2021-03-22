@@ -18,7 +18,11 @@ exports.createMessage = async (req, res) => {
   }
 
   const {author, content} = req.body;
-  const message = new MessageModel({author, content});
+  const message = new MessageModel({
+    author,
+    content,
+    socketId: req.socket.id,
+  });
 
   await message.save();
 

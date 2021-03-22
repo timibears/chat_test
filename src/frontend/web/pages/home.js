@@ -14,6 +14,9 @@ const MessageRow = require('../components/message-row');
 module.exports = class Home extends Base {
   static get propTypes() {
     return {
+      socket: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }).isRequired,
       messages: PropTypes.shape({
         items: PropTypes.arrayOf(PropTypes.shape({
           id: PropTypes.string.isRequired,
@@ -119,8 +122,8 @@ module.exports = class Home extends Base {
   }
 
   render() {
-    const userName = this.state.user && this.state.user.name;
     const messages = this.props.messages.items;
+    const mySocketId = this.props.socket.id;
 
     return (
       <div className="container">
@@ -128,7 +131,7 @@ module.exports = class Home extends Base {
           <div className="col-10">
             {
               messages.map(message => (
-                <MessageRow key={message.id} amIAuthor={message.author === userName} message={message}/>
+                <MessageRow key={message.id} amIAuthor={message.socketId === mySocketId} message={message}/>
               ))
             }
 
