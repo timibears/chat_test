@@ -42,12 +42,18 @@ module.exports = class Home extends Base {
     this.state.user = null;
     this.$listens.push(
       api.message.onMessageCreated((_, message) => {
-        this.setState(({messages}) => ({
-          messages: {
-            ...messages,
-            items: [...messages.items, message],
-          },
-        }));
+        this.setState(
+          ({messages}) => ({
+            messages: {
+              ...messages,
+              items: [...messages.items, message],
+            },
+          }),
+          () =>
+            typeof window.scrollTo === 'function' ?
+              window.scrollTo(0, document.body.scrollHeight) :
+              () => {},
+        );
       }),
     );
   }
