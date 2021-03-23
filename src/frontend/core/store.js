@@ -1,5 +1,5 @@
 const PubSub = require('pubsub-js');
-const constants = require('./constants');
+const {STORE} = require('./constants');
 
 const _data = {};
 
@@ -10,7 +10,7 @@ module.exports = {
    * @returns {function()} - Unsubscribe function.
    */
   subscribe: (key, func) => {
-    const token = PubSub.subscribe(`${constants.store.EVENT}${key}`, func);
+    const token = PubSub.subscribe(`${STORE.EVENT}${key}`, func);
     return () => PubSub.unsubscribe(token);
   },
   /**
@@ -19,11 +19,11 @@ module.exports = {
    * @returns {*}
    */
   broadcast: (key, value) => {
-    return PubSub.publishSync(`${constants.store.EVENT}${key}`, value);
+    return PubSub.publishSync(`${STORE.EVENT}${key}`, value);
   },
   set: (key, value) => {
     _data[key] = value;
-    return PubSub.publishSync(`${constants.store.EVENT}${key}`, value);
+    return PubSub.publishSync(`${STORE.EVENT}${key}`, value);
   },
   get: key => _data[key],
 };

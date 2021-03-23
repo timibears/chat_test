@@ -1,6 +1,6 @@
 const io = require('socket.io-client');
 const store = require('../store');
-const {IS_API_PROCESSING} = require('../constants').store;
+const {IS_API_PROCESSING} = require('../constants').STORE;
 const socketResponseValidator = require('../validatiors/socket-response-validator');
 
 let connectPromise;

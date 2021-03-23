@@ -1,6 +1,6 @@
 const React = require('react');
 const store = require('../store');
-const {IS_API_PROCESSING} = require('../constants').store;
+const {IS_API_PROCESSING} = require('../constants').STORE;
 
 module.exports = class Base extends React.Component {
   state = {
