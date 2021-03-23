@@ -58,13 +58,14 @@ module.exports = class Home extends Base {
     }, 800);
   }
 
-  onSubmitMessageForm = async values => {
+  onSubmitMessageForm = async (values, {resetForm}) => {
     try {
       progress.start();
       await api.message.createMessage({
         ...values,
         author: this.state.user.name,
       });
+      resetForm();
     } catch (error) {
       utils.renderError(error);
     }
