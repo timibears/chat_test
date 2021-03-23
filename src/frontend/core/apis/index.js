@@ -1,3 +1,4 @@
+const PubSub = require('pubsub-js');
 const io = require('socket.io-client');
 const store = require('../store');
 const {IS_API_PROCESSING} = require('../constants').STORE;
@@ -47,6 +48,9 @@ function connectSocket() {
           request.resolve(paket);
         }
       }
+    });
+    socket.on('NOTIFICATION', paket => {
+      PubSub.publishSync(paket.event, paket.data);
     });
   });
 

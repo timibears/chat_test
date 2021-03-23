@@ -40,6 +40,16 @@ module.exports = class Home extends Base {
       show: true,
     };
     this.state.user = null;
+    this.$listens.push(
+      api.message.onMessageCreated((_, message) => {
+        this.setState(({messages}) => ({
+          messages: {
+            ...messages,
+            items: [...messages.items, message],
+          },
+        }));
+      }),
+    );
   }
 
   onSubmitProfileSettingsModalForm = async values => {
@@ -123,7 +133,7 @@ module.exports = class Home extends Base {
   }
 
   render() {
-    const messages = this.props.messages.items;
+    const messages = this.state.messages.items;
     const mySocketId = this.props.socket.id;
 
     return (

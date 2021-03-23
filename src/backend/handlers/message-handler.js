@@ -1,3 +1,6 @@
+const {NOTIFICATION: {
+  CREATED_MESSAGE,
+}} = require('../models/constants');
 const {
   Http400,
 } = require('../models/errors');
@@ -25,6 +28,9 @@ exports.createMessage = async (req, res) => {
   });
 
   await message.save();
-
   res.json(message);
+  res.emitNotification({
+    event: CREATED_MESSAGE,
+    data: message,
+  });
 };

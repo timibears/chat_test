@@ -16,6 +16,27 @@ module.exports = class SocketResponse {
   }
 
   /**
+   * @param {string} event
+   * @param {Object} data
+   * @param {Array<string>|undefined} rooms
+   * @returns {undefined}
+   */
+  emitNotification({event, data, rooms}) {
+    let io = utils.getIO();
+
+    if (rooms) {
+      for (let index = 0; index < rooms.length; index++) {
+        io = io.to(rooms[index]);
+      }
+    }
+
+    io.emit('NOTIFICATION', {
+      event,
+      data,
+    });
+  }
+
+  /**
    * @param {Object} data - The response body.
    * @param {number|undefined} status - The response status. Default is 200.
    * @returns {undefined}
