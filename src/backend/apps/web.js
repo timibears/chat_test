@@ -40,6 +40,7 @@ app.set('view engine', 'html');
 
 app.use(morgan('dev'));
 
+app.use(/\/assets(?!\/express)/, express.static(path.join(__dirname, '..', '..', 'frontend')));
 app.use(nocache(), webRouter.web);
 
 // Error handlers

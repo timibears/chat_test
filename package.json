@@ -7,7 +7,7 @@
     "eslint": "node_modules/eslint/bin/eslint.js ./ --ignore-path .gitignore",
     "ncu": "node_modules/npm-check-updates/bin/cli.js",
     "start": "concurrently --kill-others \"node_modules/nodemon/bin/nodemon.js src/backend/web.js --watch src/backend --watch config\" \"node_modules/webpack/bin/webpack.js serve\"",
-    "build": "rm -rf dist && node_modules/webpack/bin/webpack.js --env mode=production && cp -r src/backend dist/.",
+    "build": "rm -rf dist && NODE_ENV=production node_modules/webpack/bin/webpack.js && cp -r src/backend dist/.",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

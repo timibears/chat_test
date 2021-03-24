@@ -3,8 +3,8 @@ const config = require('config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = (env = {}) => {
-  const MODE = env.mode || 'development';
+module.exports = () => {
+  const MODE = process.env.NODE_ENV || 'development';
   const IS_DEVELOPMENT = MODE === 'development';
 
   return {
@@ -25,7 +25,9 @@ module.exports = (env = {}) => {
     },
     output: {
       path: path.join(__dirname, 'dist', 'frontend'),
-      publicPath: `//${config.WEBPACK_DEV_SERVER.HOST}:${config.WEBPACK_DEV_SERVER.PORT}/`,
+      publicPath: IS_DEVELOPMENT ?
+        `//${config.WEBPACK_DEV_SERVER.HOST}:${config.WEBPACK_DEV_SERVER.PORT}/` :
+        `${config.ASSETS_PATH}/`,
       filename: IS_DEVELOPMENT ? '[name].js' : '[name].[hash:8].js',
     },
     module: {
