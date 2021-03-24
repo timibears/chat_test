@@ -20,12 +20,12 @@ chmod 600 authorized_keys
 
 sudo bash
 cd /etc/sudoers.d
-vi kelp
+vi ubuntu
 ```
->/etc/sudoers.d/kelp
+>/etc/sudoers.d/ubuntu
 >```
 ># User rules for ubuntu
->kelp ALL=(ALL) NOPASSWD:ALL
+>ubuntu ALL=(ALL) NOPASSWD:ALL
 >```
 
 #### Setup ssh host at the host.
@@ -33,7 +33,7 @@ vi kelp
 >```
 >Host server-all
 >    HostName 192.168.2.152
->    User kelp
+>    User ubuntu
 >    IdentityFIle ~/.ssh/id_rsa.demo
 >```
 
