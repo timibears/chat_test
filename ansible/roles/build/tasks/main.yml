@@ -1,0 +1,16 @@
+- name: Build chat
+  local_action: shell cd .. && npm run build
+  register: out
+
+- debug: var=out.stdout_lines
+
+- name: Zip files
+  local_action: >
+    shell cd .. &&
+    zip -r chat.zip
+    config
+    dist
+    src/backend
+    pm2-processes
+    index.js
+    package.json

@@ -1,0 +1,49 @@
+- name: Upload chat.zip
+  synchronize:
+    src: ../chat.zip
+    dest: ~/.
+
+- name: Ensure chat directory exists
+  file:
+    path: ~/chat
+    state: directory
+
+- name: Unzip chat.zip
+  unarchive:
+    src: ~/chat.zip
+    dest: ~/chat
+    remote_src: yes
+
+- name: Install npm packages
+  command: npm install --only=prod
+  args:
+    chdir: ~/chat
+
+- name: Sync indexes
+  shell: NODE_ENV={{ env }} node . sync
+  args:
+    chdir: ~/chat
+
+- name: Restart pm2
+  command: pm2 startOrReload pm2-processes/{{ env }}.json
+  args:
+    chdir: ~/chat
+  register: out
+
+- debug: var=out.stdout_lines
+
+- name: Sleep for 10 seconds
+  wait_for:
+    timeout: 10
+  delegate_to: localhost
+
+- name: List pm2 processes
+  command: pm2 ls
+  args:
+    chdir: ~/chat
+  register: out
+
+- debug: var=out.stdout_lines
+
+- name: Save pm2
+  command: pm2 save
