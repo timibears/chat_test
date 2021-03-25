@@ -1,6 +1,23 @@
 # chat
 A chat room based on Socket.IO.
 
+## Download VirtualBox and Ubuntu
++ https://www.virtualbox.org/wiki/Downloads
++ https://ubuntu.com/download/server
+
+## Install ubuntu at VirtualBox
+![00](_resources/00.png)
+![01](_resources/01.png)
+![02](_resources/02.png)
+![03](_resources/03.png)
+![04](_resources/04.png)
+![05](_resources/05.png)
+![06](_resources/06.png)
+![07](_resources/07.png)
+![08](_resources/08.png)
+![09](_resources/09.png)
+![10](_resources/10.png)
+
 ## Setup server
 ### Auth
 #### Generate private, public key at the host.
