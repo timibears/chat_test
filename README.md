@@ -107,3 +107,16 @@ sudo apt install nodejs
 #### What is `curl -fsSL` ?
 https://explainshell.com/explain?cmd=curl+-fsSL+https%3A%2F%2Fdeb.nodesource.com%2Fsetup_14.x+%7C+sudo+-E+bash+-
 
+
+### Manually install MongoDB
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+```bash
+sudo apt install gnupg
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update
+sudo apt install mongodb-org
+
+sudo systemctl start mongod
+sudo systemctl enable mongod
+```
