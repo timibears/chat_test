@@ -8,7 +8,7 @@ const MessageModel = require('../models/data/message-model');
 const messageValidator = require('../validations/validators/message-validator');
 
 exports.getMessages = async (req, res) => {
-  const messages = await MessageModel.where().limit(500).sort({createdAt: -1});
+  const messages = await MessageModel.where().limit(10).sort({createdAt: -1});
 
   res.json({items: messages});
 };
