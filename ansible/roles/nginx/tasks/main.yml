@@ -16,13 +16,6 @@
     regexp: '#\s*(server_tokens off;)'
     replace: '\1'
 
-- name: Set max body size as 10M
-  become: yes
-  lineinfile:
-    dest: /etc/nginx/nginx.conf
-    insertafter: server_tokens off;
-    line: client_max_body_size 10M;
-
 - name: Enable gzip
   become: yes
   replace:
