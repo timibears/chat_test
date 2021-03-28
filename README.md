@@ -51,7 +51,7 @@ vi ubuntu
 > Host server-all
 >     HostName 192.168.2.152
 >     User ubuntu
->     IdentityFIle ~/.ssh/id_rsa.demo
+>     IdentityFile ~/.ssh/id_rsa.demo
 > ```
 
 
