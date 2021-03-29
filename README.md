@@ -35,9 +35,8 @@ vi authorized_keys
 # paste the public key then save
 chmod 600 authorized_keys
 
-sudo bash
 cd /etc/sudoers.d
-vi ubuntu
+sudo vi ubuntu
 ```
 >/etc/sudoers.d/ubuntu
 > ```
@@ -48,7 +47,7 @@ vi ubuntu
 #### Add ssh config at the host.
 >~/.ssh/config
 > ```
-> Host server-all
+> Host uubntu-chat
 >     HostName 192.168.2.152
 >     User ubuntu
 >     IdentityFile ~/.ssh/id_rsa.demo
@@ -57,7 +56,11 @@ vi ubuntu
 
 ### Install applications
 ```bash
-ansible-playbook ansible/setup-server.yml -e host=server-all -e env=production
+# Install ansible
+brew install ansible
+```
+```bash
+ansible-playbook ansible/setup-server.yml -e host=ubuntu-chat -e env=production
 ```
 
 
