@@ -47,7 +47,7 @@ sudo vi ubuntu
 #### Add ssh config at the host.
 >~/.ssh/config
 > ```
-> Host uubntu-chat
+> Host ubuntu-chat
 >     HostName 192.168.2.152
 >     User ubuntu
 >     IdentityFile ~/.ssh/id_rsa.demo
