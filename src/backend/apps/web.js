@@ -31,6 +31,7 @@ app.locals.config = {
   IS_DEBUG: config.IS_DEBUG,
   ASSETS_PATH: config.ASSETS_PATH,
   SOCKET_PATH: '/',
+  PORT: utils.getListenPort(),
 };
 
 ejs.delimiter = '?';

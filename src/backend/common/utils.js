@@ -20,6 +20,13 @@ function connectDatabase(options) {
   });
 }
 
+/**
+ * @returns {number}
+ */
+function getListenPort() {
+  return Number(process.env.PORT) || config.EXPRESS_SERVER.PORT;
+}
+
 let io;
 function getIO(server) {
   if (io) {
@@ -47,4 +54,5 @@ module.exports = {
   connectDatabase,
   getIO,
   formatNumber,
+  getListenPort,
 };

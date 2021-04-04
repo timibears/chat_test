@@ -5,8 +5,12 @@ const {server} = require('./apps/web');
 utils.connectDatabase()
   .then(() => {
     // Launch server
-    server.listen(config.EXPRESS_SERVER.PORT, config.EXPRESS_SERVER.HOST, () => {
-      const {address, port} = server.address();
-      console.log(`Server listening at http://${address}:${port}`);
-    });
+    server.listen(
+      utils.getListenPort(),
+      config.EXPRESS_SERVER.HOST,
+      () => {
+        const {address, port} = server.address();
+        console.log(`Server listening at http://${address}:${port}`);
+      },
+    );
   });

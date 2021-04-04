@@ -6,11 +6,15 @@ const {
 } = require('../models/errors');
 const MessageModel = require('../models/data/message-model');
 const messageValidator = require('../validations/validators/message-validator');
+const utils = require('../common/utils');
 
 exports.getMessages = async (req, res) => {
   const messages = await MessageModel.where().limit(10).sort({createdAt: -1});
 
-  res.json({items: messages});
+  res.json({
+    items: messages,
+    PORT: utils.getListenPort(),
+  });
 };
 
 exports.createMessage = async (req, res) => {
@@ -28,9 +32,15 @@ exports.createMessage = async (req, res) => {
   });
 
   await message.save();
-  res.json(message);
+  res.json({
+    ...message,
+    PORT: utils.getListenPort(),
+  });
   res.emitNotification({
     event: CREATED_MESSAGE,
-    data: message,
+    data: {
+      ...message,
+      PORT: utils.getListenPort(),
+    },
   });
 };
