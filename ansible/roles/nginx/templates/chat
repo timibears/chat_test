@@ -1,5 +1,6 @@
 upstream web_backend {
 	server 127.0.0.1:3000;
+	server 127.0.0.1:3001;
 	keepalive 32;
 }
 server {

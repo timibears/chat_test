@@ -1,16 +1,32 @@
 [
   {
-    "name": "chat-web",
+    "name": "chat-1",
     "script": "dist/backend/web.js",
-    "error_file": "/tmp/chat-web.error.log",
-    "out_file": "/tmp/chat-web.log",
+    "error_file": "/tmp/chat-1.error.log",
+    "out_file": "/tmp/chat-1.log",
     "exec_mode": "fork",
     "instances": 1,
     "watch": false,
     "merge_logs": true,
     "autorestart": true,
     "env": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "PORT": 3000
+    }
+  },
+  {
+    "name": "chat-2",
+    "script": "dist/backend/web.js",
+    "error_file": "/tmp/chat-2.error.log",
+    "out_file": "/tmp/chat-2.log",
+    "exec_mode": "fork",
+    "instances": 1,
+    "watch": false,
+    "merge_logs": true,
+    "autorestart": true,
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": 3001
     }
   }
 ]
