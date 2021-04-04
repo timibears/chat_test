@@ -5,6 +5,4 @@ const webRouter = new ExpressRouter();
 
 webRouter.get('/', baseHandler.getBaseView);
 
-module.exports = {
-  web: webRouter.router,
-};
+module.exports = webRouter.router;

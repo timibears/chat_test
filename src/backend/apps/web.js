@@ -41,7 +41,7 @@ app.set('view engine', 'html');
 app.use(morgan('dev'));
 
 app.use(/\/assets(?!\/express)/, express.static(path.join(__dirname, '..', '..', 'frontend')));
-app.use(nocache(), webRouter.web);
+app.use(nocache(), webRouter);
 
 // Error handlers
 app.use((req, res, next) => {
