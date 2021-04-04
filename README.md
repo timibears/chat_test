@@ -116,6 +116,7 @@ ln -s ../sites-available/chat .
 rm /etc/nginx/sites-enabled/default
 sudo service nginx reload
 ```
++ [ip_hash](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#ip_hash)
 + [Using the Forwarded header](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)
 + [Embedded Variables: $remote_addr](https://nginx.org/en/docs/http/ngx_http_core_module.html#var_remote_addr)
 + [proxy_http_version](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version)
