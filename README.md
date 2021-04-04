@@ -60,7 +60,11 @@ sudo vi ubuntu
 brew install ansible
 ```
 ```bash
+# Setup server
 ansible-playbook ansible/setup-server.yml -e host=ubuntu-chat -e env=production
+
+# Just deploy web application
+ansible-playbook ansible/deploy.yml -e host=ubuntu-chat -e env=production
 ```
 
 
