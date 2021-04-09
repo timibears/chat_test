@@ -33,13 +33,13 @@ exports.createMessage = async (req, res) => {
 
   await message.save();
   res.json({
-    ...message,
+    ...message.toJSON(),
     PORT: utils.getListenPort(),
   });
   res.emitNotification({
     event: CREATED_MESSAGE,
     data: {
-      ...message,
+      ...message.toJSON(),
       PORT: utils.getListenPort(),
     },
   });
