@@ -145,3 +145,13 @@ sudo apt install mongodb-org
 sudo systemctl start mongod
 sudo systemctl enable mongod
 ```
+
+
+---
+
+
+## Docker compose
+```bash
+docker build . -t chat-image
+docker-compose -f docker-compose.yml up
+```
