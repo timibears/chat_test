@@ -34,20 +34,28 @@ app.locals.config = {
   PORT: utils.getListenPort(),
 };
 
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  next();
+});
+
 ejs.delimiter = '?';
 app.set('views', path.join(__dirname, '..', '..', 'frontend', 'express'));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 
 app.use(morgan('dev'));
+app.get('/health', (req, res) => {
+  res.json({message: 'success'});
+});
 
 app.use(/\/assets(?!\/express)/, express.static(path.join(__dirname, '..', '..', 'frontend')));
 app.use(nocache(), webRouter);
 
 // Error handlers
-app.use((req, res, next) => {
-  next(new Http404());
-});
+// app.use((req, res, next) => {
+//   next(new Http404());
+// });
 app.use((error, req, res, _) => {
   error.status = error.status || 500;
   res.status(error.status);

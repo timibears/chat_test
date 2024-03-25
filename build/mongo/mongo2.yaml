@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongoset
+  labels:
+    app: mongo
+spec:
+  serviceName: "mongo-service"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongodb
+        image: mongo:4.2
+        ports:
+        - containerPort: 27017
+        # env:
+        # - name: MONGO_INITDB_ROOT_USERNAME
+        #   valueFrom:
+        #     secretKeyRef: 
+        #       name: mongo-secret
+        #       key: USERNAME 
+        # - name: MONGO_INITDB_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef: 
+        #       name: mongo-secret
+        #       key: PASSWORD 
+        command:
+          - mongod
+          - "--bind_ip_all"
+          - "--replSet"
+          - rs0
+        volumeMounts:    
+          - name: mongo-volumn
+            mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-volumn
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 1Gi
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongo-service
+#   labels:
+#     app: mongo
+# spec:
+#   selector:
+#     app: mongo
+#   ports:
+#     - protocol: TCP
+#       port: 27017
+#       targetPort: 27017
+
+#   rs.initiate({
+#  _id: "rs0",
+#  members: [
+#  {_id:0, host: "mongoset-0.mongo-service.default.svc.cluster.local:27017",priority:1},
+#  {_id:1, host: "mongoset-1.mongo-service.default.svc.cluster.local:27017",priority:0.5},
+#  {_id:2, host: "mongoset-2.mongo-service.default.svc.cluster.local:27017",priority:0.5}
+#  ]
+#  })
+
+#podName.serviceName
+# cfg = rs.conf()
+# cfg.members[0].priority = 0.5
+# cfg.members[1].priority = 0.5
+# cfg.members[2].priority = 1
+# rs.reconfig(cfg)
+
+# db.auth("mongouser", "mongopassword")
+
+            # mongo --port 27017 --eval
+            # 'rs.initiate({_id:"rs0",members:[{_id:0,host:"mongoset-0.mongo-service.default.svc.cluster.local:27017"},{_id:1,host:"mongoset-1.mongo-service.default.svc.cluster.local:27017"},{_id:2,host:"mongoset-2.mongo-service.default.svc.cluster.local:27017"}]});';

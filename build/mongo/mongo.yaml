@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo #需對應至template的label
+  strategy:
+    type: RollingUpdate
+  template: #pod內容
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:4.2
+        ports:
+          - containerPort: 27017
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: USERNAME
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: PASSWORD
+        volumeMounts: # 掛載volumes
+          - name: mongo-volume 
+            mountPath: /data/db #mongo 預設路徑
+      volumes: 
+        - name: mongo-volume
+          hostPath: 
+            path: /tmp/data01 #hostPath關聯至本機的位置
+            type: DirectoryOrCreate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  namespace: default
+spec:
+  selector:  # 對應pod的標籤
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

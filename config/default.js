@@ -13,7 +13,7 @@ module.exports = {
   ASSETS_PATH: '//localhost:3001',
   EXPRESS_SERVER: {
     HOST: '0.0.0.0',
-    PORT: 3000,
+    PORT: 3005,
   },
   WEBPACK_DEV_SERVER: {
     HOST: '0.0.0.0',

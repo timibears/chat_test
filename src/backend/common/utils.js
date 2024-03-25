@@ -6,15 +6,27 @@ const mongoose = require('mongoose');
  * @returns {Promise<Mongoose>}
  */
 function connectDatabase(options) {
+  let mongoURL;
+
+  if (process.env.URL) {
+    mongoURL = `mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@${process.env.URL}/chat?authSource=admin`;
+  } else {
+    mongoURL = config.DATABASE.URL;
+  }
+
   mongoose.connection.on('error', error => {
-    console.error('Mongoose default connection error.');
+    console.error(`Mongoose default connection error on ${mongoURL}.`);
     console.error(error);
   });
   mongoose.connection.on('disconnected', () => {
     console.error('Mongoose default connection disconnected.');
   });
 
-  return mongoose.connect(config.DATABASE.URL, {
+  mongoose.connection.on('connected', () => {
+    console.error(`Mongoose connection on ${mongoURL} successfully.`);
+  });
+
+  return mongoose.connect(mongoURL, {
     ...config.DATABASE.OPTIONS,
     ...options,
   });

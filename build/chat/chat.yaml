@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-deployment
+  namespace: default
+spec:
+  replicas: 1 #pod scaling
+  selector:
+    matchLabels:
+      app: chat
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: chat
+    spec:
+      containers:
+      - name: chat
+        image: kuo52033/chat-demo:production-1.5
+        ports:
+        - containerPort: 3005
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef: 
+              name: mongo-secret
+              key: USERNAME 
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef: 
+              name: mongo-secret
+              key: PASSWORD 
+        - name: URL
+          valueFrom:
+            configMapKeyRef: 
+              name: mongo-config
+              key: mongo-url 
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3005
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          successThreshold: 1
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-service
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: chat
+  ports:
+    - protocol: TCP
+      port: 3005 #service開放的
+      targetPort: 3005 #pod開放的
+      nodePort: 30000
+
